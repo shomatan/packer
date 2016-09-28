@@ -1,0 +1,47 @@
+---
+- name: Ensure build packages are installed.
+  yum: name={{ item }} state=latest
+  with_items:
+    - bzip2
+    - gcc
+    - make
+    - "gcc-c++"
+    - kernel-devel
+    - zlib-devel
+    - openssl-devel
+    - readline-devel
+    - sqlite-devel
+    - perl
+    - wget
+    - curl
+    - bind-utils
+    - file
+    - git
+    - mailx
+    - man
+    - openssh-clients
+    - patch
+    - rsync
+    - screen
+    - sysstat
+    - dstat
+    - traceroute
+    - vim-enhanced
+
+- name: Install the virtualbox guest additions.
+  shell: >
+    VBOX_VERSION=$(cat /root/.vbox_version)
+    cd /tmp
+    mount -o loop /root/VBoxGuestAdditions_$VBOX_VERSION.iso /mnt
+    sh /mnt/VBoxLinuxAdditions.run
+    umount /mnt
+    rm -rf /home/vagrant/VBoxGuestAdditions_*.iso
+  changed_when: False
+
+- name: Remove unnecessary packages.
+  shell: >
+    yum -y erase gtk2 libX11 hicolor-icon-theme avahi freetype bitstream-vera-fonts
+    yum -y clean all
+    rm -rf VBoxGuestAdditions_*.iso
+    rm -rf /tmp/rubygems-*
+  changed_when: False

@@ -1,4 +1,16 @@
 ---
+- name: Accept sudo without the only wheel group.
+  lineinfile:
+    dest: /etc/sudoers
+    regexp: '^Defaults.*requiretty'
+    line: "Defaults:%wheel    !requiretty"
+
+- name: Ensure zsh is installed
+  yum: name=zsh state=latest
+
+- name: Ensure git is installed
+  yum: name=git state=latest
+
 - name: Ensure vagrant group exists.
   group: name=vagrant gid=501
 
@@ -8,6 +20,7 @@
     uid: 501
     password: "$1$c3gMbMtj$ETkw/czVpeutgSoBzzty1/"
     groups: vagrant,wheel
+    shell: /bin/zsh
 
 - name: Place vagrant sudoers file.
   copy:
@@ -32,3 +45,8 @@
     owner: vagrant
     group: vagrant
     mode: 00600
+
+- name: Install dotfiles on vagrant user.
+  shell: curl -sS https://raw.githubusercontent.com/shomatan/dotfiles/master/tools/install.sh | bash
+  become_user: vagrant
+  changed_when: False

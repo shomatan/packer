@@ -1,0 +1,9 @@
+---
+- name: Get selinux status.
+  command: getenforce
+  regiter: result
+  changed_when: False
+
+- name: Ensure selinux is disabled.
+  command: setenforce 0
+  
