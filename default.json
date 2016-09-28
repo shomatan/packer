@@ -2,22 +2,16 @@
   "provisioners": [
     {
       "type": "shell",
-      "scripts": [
-        "scripts/init.sh",
-        "scripts/motd.sh"
+      "inline": [
+        "yum -y update",
+        "yum -y install epel-release",
+        "yum -y install ansible"
       ]
     },
     {
-      "type": "file",
-      "source": "tests",
-      "destination": "/tmp"
-    },
-    {
-      "type": "shell",
-      "scripts": [
-        "scripts/serverspec.sh",
-        "scripts/finalize.sh"
-      ]
+      "type": "ansible-local",
+      "playbook_dir": "playbook",
+      "playbook_file": "playbook/site.yml"
     }
   ],
   "builders": [

@@ -1,0 +1,6 @@
+---
+- name: Run the all group of hosts
+  hosts: all
+  become: true
+  roles:
+    - role: vagrant
