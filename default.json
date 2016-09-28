@@ -4,7 +4,6 @@
       "type": "shell",
       "scripts": [
         "scripts/init.sh",
-        "scripts/mirror.sh",
         "scripts/motd.sh"
       ]
     },
