@@ -1,0 +1,3 @@
+[submodule "playbook/roles/init"]
+	path = playbook/roles/init
+	url = https://github.com/shomatan/ansible-init.git
