@@ -1,0 +1,9 @@
+---
+- name: Get current date.
+  command: date +%Y-%m-%d
+  register: result
+  changed_when: False
+- set_fact: date={{ result.stdout }}
+
+- name: Copy motd file in place.
+  template: src=motd.j2 dest=/etc/motd

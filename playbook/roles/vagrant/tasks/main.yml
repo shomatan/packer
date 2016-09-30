@@ -1,0 +1,49 @@
+---
+
+- name: Ensure vagrant group exists.
+  group: name=vagrant gid=501
+
+- name: Ensure vagrant user exists.
+  user:
+    name: vagrant
+    uid: 501
+    password: "$1$c3gMbMtj$ETkw/czVpeutgSoBzzty1/"
+    groups: vagrant,wheel
+    shell: /bin/zsh
+
+- name: Place vagrant sudoers file.
+  copy:
+    src: vagrant
+    dest: /etc/sudoers.d/vagrant
+    owner: root
+    group: root
+    mode: 00440
+
+- name: Ensure ssh directory exists on vagrant user.
+  file:
+    path: /home/vagrant/.ssh
+    state: directory
+    owner: vagrant
+    group: vagrant
+    mode: 00700
+
+- name: Download vagrant's public key.
+  get_url:
+    url: https://raw.github.com/mitchellh/vagrant/master/keys/vagrant.pub
+    dest: /home/vagrant/.ssh/authorized_keys
+    owner: vagrant
+    group: vagrant
+    mode: 00600
+
+# dotfiles
+- name: Install dotfiles on root user.
+  shell: curl -sS https://raw.githubusercontent.com/shomatan/dotfiles/master/tools/install.sh | bash
+  args:
+    creates: /root/dotfiles/.zshrc
+  become_user: root
+
+- name: Install dotfiles on vagrant user.
+  shell: curl -sS https://raw.githubusercontent.com/shomatan/dotfiles/master/tools/install.sh | bash
+  args:
+    creates: /home/vagrant/dotfiles/.zshrc
+  become_user: vagrant

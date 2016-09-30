@@ -1,0 +1,71 @@
+---
+- name: Ensure build packages are installed.
+  yum: name={{ item }} state=latest
+  with_items:
+    - bzip2
+    - gcc
+    - make
+    - "gcc-c++"
+    - kernel-devel
+    - zlib-devel
+    - openssl-devel
+    - readline-devel
+    - sqlite-devel
+    - perl
+    - wget
+    - curl
+    - bind-utils
+    - file
+    - mailx
+    - man
+    - openssh-clients
+    - patch
+    - rsync
+    - sysstat
+    - dstat
+    - traceroute
+    - vim-enhanced
+
+- name: Get virtualbox version.
+  command: cat /root/.vbox_version
+  register: result
+  changed_when: False
+- set_fact: VBOX_VERSION={{ result.stdout }}
+
+- name: Mount VBoxGuestAdditions
+  shell: mount -o loop /root/VBoxGuestAdditions_{{ VBOX_VERSION }}.iso /mnt
+  args:
+    creates: /var/lib/VBoxGuestAdditions/config
+
+- name: Run VBoxGuestAdditions install script.
+  shell: sh /mnt/VBoxLinuxAdditions.run
+  args:
+    creates: /var/lib/VBoxGuestAdditions/config
+
+- name: Unmount VBoxGuestAdditions
+  shell: umount /mnt
+  args:
+    creates: /var/lib/VBoxGuestAdditions/config
+
+- name: Check the VBoxGuestAdditions ISO exists.
+  stat: path=/root/VBoxGuestAdditions_{{ VBOX_VERSION }}.iso
+  register: stat
+
+- name: Ensure VBoxGuestAdditions ISO is removed.
+  file: path=/root/VBoxGuestAdditions_{{ VBOX_VERSION }}.iso state=absent
+
+- name: Remove unnecessary packages.
+  yum: name={{ item }} state=absent
+  with_items:
+    - gtk2
+    - libX11
+    - hicolor-icon-theme
+    - avahi
+    - freetype
+    - bitstream-vera-fonts
+
+  # shell: >
+  #   cd /tmp
+  #   rm -rf VBoxGuestAdditions_*.iso
+  #   rm -rf /tmp/rubygems-*
+  # changed_when: False

@@ -1,0 +1,10 @@
+---
+- name: Run the all group of hosts
+  hosts: all
+  become: true
+  roles:
+    - role: init
+    - role: neovim
+    - role: vagrant
+    - role: motd
+    - role: virtualbox
