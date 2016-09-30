@@ -1,12 +1,12 @@
 {
   "provisioners": [
+    { "type": "shell", "scripts": ["scripts/init.sh"] },
     {
-      "type": "shell",
-      "scripts": [
-        "scripts/6/init.sh",
-        "scripts/6/motd.sh"
-      ]
-    }
+      "type": "ansible-local",
+      "playbook_dir": "playbook",
+      "playbook_file": "playbook/site.yml"
+    },
+    { "type": "shell", "scripts": ["scripts/finalize.sh"] }
   ],
   "builders": [
     {

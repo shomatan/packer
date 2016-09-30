@@ -1,15 +1,4 @@
 ---
-- name: Accept sudo without the only wheel group.
-  lineinfile:
-    dest: /etc/sudoers
-    regexp: '^Defaults.*requiretty'
-    line: "Defaults:%wheel    !requiretty"
-
-- name: Ensure zsh is installed
-  yum: name=zsh state=latest
-
-- name: Ensure git is installed
-  yum: name=git state=latest
 
 - name: Ensure vagrant group exists.
   group: name=vagrant gid=501
