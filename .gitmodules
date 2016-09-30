@@ -1,3 +1,6 @@
 [submodule "playbook/roles/init"]
 	path = playbook/roles/init
 	url = https://github.com/shomatan/ansible-init.git
+[submodule "playbook/roles/neovim"]
+	path = playbook/roles/neovim
+	url = https://github.com/shomatan/ansible-neovim.git
