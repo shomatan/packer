@@ -1,6 +1,6 @@
 ---
 - name: Get current date.
-  command: date +%Y%m%d
+  command: date +%Y-%m-%d
   register: result
   changed_when: False
 - set_fact: date={{ result.stdout }}

@@ -46,7 +46,15 @@
     group: vagrant
     mode: 00600
 
+# dotfiles
+- name: Install dotfiles on root user.
+  shell: curl -sS https://raw.githubusercontent.com/shomatan/dotfiles/master/tools/install.sh | bash
+  args:
+    creates: /root/dotfiles/.zshrc
+  become_user: root
+
 - name: Install dotfiles on vagrant user.
   shell: curl -sS https://raw.githubusercontent.com/shomatan/dotfiles/master/tools/install.sh | bash
+  args:
+    creates: /home/vagrant/dotfiles/.zshrc
   become_user: vagrant
-  changed_when: False

@@ -16,32 +16,56 @@
     - curl
     - bind-utils
     - file
-    - git
     - mailx
     - man
     - openssh-clients
     - patch
     - rsync
-    - screen
     - sysstat
     - dstat
     - traceroute
     - vim-enhanced
 
-- name: Install the virtualbox guest additions.
-  shell: >
-    VBOX_VERSION=$(cat /root/.vbox_version)
-    cd /tmp
-    mount -o loop /root/VBoxGuestAdditions_$VBOX_VERSION.iso /mnt
-    sh /mnt/VBoxLinuxAdditions.run
-    umount /mnt
-    rm -rf /home/vagrant/VBoxGuestAdditions_*.iso
+- name: Get virtualbox version.
+  command: cat /root/.vbox_version
+  register: result
   changed_when: False
+- set_fact: VBOX_VERSION={{ result.stdout }}
+
+- name: Mount VBoxGuestAdditions
+  shell: mount -o loop /root/VBoxGuestAdditions_{{ VBOX_VERSION }}.iso /mnt
+  args:
+    creates: /var/lib/VBoxGuestAdditions/config
+
+- name: Run VBoxGuestAdditions install script.
+  shell: sh /mnt/VBoxLinuxAdditions.run
+  args:
+    creates: /var/lib/VBoxGuestAdditions/config
+
+- name: Unmount VBoxGuestAdditions
+  shell: umount /mnt
+  args:
+    creates: /var/lib/VBoxGuestAdditions/config
+
+- name: Check the VBoxGuestAdditions ISO exists.
+  stat: path=/root/VBoxGuestAdditions_{{ VBOX_VERSION }}.iso
+  register: stat
+
+- name: Ensure VBoxGuestAdditions ISO is removed.
+  file: path=/root/VBoxGuestAdditions_{{ VBOX_VERSION }}.iso state=absent
 
 - name: Remove unnecessary packages.
-  shell: >
-    yum -y erase gtk2 libX11 hicolor-icon-theme avahi freetype bitstream-vera-fonts
-    yum -y clean all
-    rm -rf VBoxGuestAdditions_*.iso
-    rm -rf /tmp/rubygems-*
-  changed_when: False
+  yum: name={{ item }} state=absent
+  with_items:
+    - gtk2
+    - libX11
+    - hicolor-icon-theme
+    - avahi
+    - freetype
+    - bitstream-vera-fonts
+
+  # shell: >
+  #   cd /tmp
+  #   rm -rf VBoxGuestAdditions_*.iso
+  #   rm -rf /tmp/rubygems-*
+  # changed_when: False
