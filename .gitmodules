@@ -4,3 +4,6 @@
 [submodule "playbook/roles/neovim"]
 	path = playbook/roles/neovim
 	url = https://github.com/shomatan/ansible-neovim.git
+[submodule "playbook/roles/virtualbox-guest"]
+	path = playbook/roles/virtualbox-guest
+	url = https://github.com/shomatan/ansible-virtualbox-guest.git
