@@ -7,4 +7,4 @@
     - role: neovim
     - role: vagrant
     - role: motd
-    - role: virtualbox
+    - role: virtualbox-guest
