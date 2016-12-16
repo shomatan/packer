@@ -1,6 +1,5 @@
 ---
-- name: Run the all group of hosts
-  hosts: all
+- hosts: all
   become: true
   roles:
     - role: init
@@ -8,3 +7,5 @@
     - role: vagrant
     - role: motd
     - role: virtualbox-guest
+  vars:
+    init_networkmanager_enabled: true

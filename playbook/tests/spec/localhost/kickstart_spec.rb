@@ -14,7 +14,6 @@ describe service('firewalld') do
   it { should_not be_running }
 end
 
-
 # Repositories
 %w{epel remi remi-php70 rpmforge}.each do |repo|
   describe yumrepo(repo) do
