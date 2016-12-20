@@ -1,12 +1,17 @@
 {
   "provisioners": [
-    { "type": "shell", "scripts": ["scripts/init.sh"] },
     {
-      "type": "ansible-local",
-      "playbook_dir": "playbook",
+      "type": "shell",
+      "scripts": ["scripts/init.sh"]
+    },
+    {
+      "type": "ansible",
       "playbook_file": "playbook/site.yml"
     },
-    { "type": "shell", "scripts": ["scripts/finalize.sh"] }
+    {
+      "type": "shell",
+      "scripts": ["scripts/finalize.sh"] 
+    }
   ],
   "builders": [
     {
@@ -50,7 +55,7 @@
       "type": "vagrant",
       "override": {
         "virtualbox": {
-          "output": "CentOS-6-2-x64-virtualbox.box"
+          "output": "builds/{{.Provider}}-centos-6.2.box",
         }
       }
     }
