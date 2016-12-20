@@ -25,9 +25,9 @@
       "guest_os_type": "RedHat_64",
       "headless": true,
       "http_directory": "http",
-      "iso_checksum": "88c0437f0a14c6e2c94426df9d43cd67",
-      "iso_checksum_type": "md5",
-      "iso_url": "http://ftp.iij.ad.jp/pub/linux/centos/7/isos/x86_64/CentOS-7-x86_64-Minimal-1511.iso",
+      "iso_checksum": "27bd866242ee058b7a5754e83d8ee8403e216b93d130d800852a96f41c34d86a",
+      "iso_checksum_type": "sha256",
+      "iso_url": "http://ftp.iij.ad.jp/pub/linux/centos/7/isos/x86_64/CentOS-7-x86_64-Minimal-1611.iso",
       "output_directory": "output",
       "ssh_username": "root",
       "ssh_password": "vagrant",
@@ -36,7 +36,7 @@
       "shutdown_command": "/sbin/halt -h -p",
       "guest_additions_path": "VBoxGuestAdditions_{{.Version}}.iso",
       "virtualbox_version_file": ".vbox_version",
-      "vm_name": "centos-7.2",
+      "vm_name": "centos-7.3",
       "vboxmanage": [
         [
           "modifyvm",
@@ -55,7 +55,7 @@
   ],
   "post-processors": [
     {
-      "output": "builds/{{.Provider}}-centos7.2.box",
+      "output": "builds/{{.Provider}}-centos7.3.box",
       "type": "vagrant"
     }
   ]
