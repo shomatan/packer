@@ -6,6 +6,11 @@ Packer templates to build the vagrant box for CentOS.
 + [VirtualBox](https://www.virtualbox.org/)
 
 ## Usage
+#### CentOS 7.3.1611
+```
+packer build latest.json
+vagrant box add centos-7.3 builds/virtualbox-centos-7.3.1611.box --force
+```
 
 #### CentOS 6.2
 ```

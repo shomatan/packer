@@ -1,12 +1,14 @@
 {
+  "variables": {
+    "os_version": "7.3.1611"
+  },
   "provisioners": [
     {
       "type": "shell",
-      "scripts": ["scripts/init.sh"]
+      "inline": ["yum -y update"]
     },
     {
-      "type": "ansible-local",
-      "playbook_dir": "playbook",
+      "type": "ansible",
       "playbook_file": "playbook/site.yml"
     },
     {
@@ -36,7 +38,7 @@
       "shutdown_command": "/sbin/halt -h -p",
       "guest_additions_path": "VBoxGuestAdditions_{{.Version}}.iso",
       "virtualbox_version_file": ".vbox_version",
-      "vm_name": "centos-7.3",
+      "vm_name": "centos-{{user `os_version`}}",
       "vboxmanage": [
         [
           "modifyvm",
@@ -55,7 +57,7 @@
   ],
   "post-processors": [
     {
-      "output": "builds/{{.Provider}}-centos7.3.box",
+      "output": "builds/{{.Provider}}-centos-{{user `os_version`}}.box",
       "type": "vagrant"
     }
   ]
