@@ -46,4 +46,5 @@
   shell: curl -sS https://raw.githubusercontent.com/shomatan/dotfiles/master/tools/install.sh | bash
   args:
     creates: /home/vagrant/dotfiles/.zshrc
+  become: yes
   become_user: vagrant
