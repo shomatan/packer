@@ -15,5 +15,5 @@ vagrant box add centos-7.3 builds/virtualbox-centos-7.3.1611.box --force
 #### CentOS 6.2
 ```
 packer build centos-6.2.json
-vagrant box add centos-6.2 builds/virtualbox-centos-6.2.box --force
+vagrant box add centos-6.2 builds/virtualbox-centos-6.2.box
 ```
